@@ -35,7 +35,6 @@
         <field name="arch" type="xml">
             <tree name="Partner Tree">
                 <field name="name"/>
-                <field name="instructor_type"  />
                 <field name="instructor"/>
                 <field name="session_ids"/>
             </tree>
