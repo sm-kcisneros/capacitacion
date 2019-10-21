@@ -8,7 +8,7 @@
                 <sheet>
                     <group>
                         <group >
-                            <field name="name"/>
+                            <field name="x_user"/>
                             <field name="phone"/>
                             <field name="adress"/>
                             <field name="city"/>
@@ -34,7 +34,7 @@
         <field name="type">tree</field>
         <field name="arch" type="xml">
             <tree name="Partner Tree">
-                <field name="name"/>
+                <field name="x_name"/>
                 <field name="instructor"/>
                 <field name="session_ids"/>
             </tree>
@@ -46,7 +46,7 @@
         <field name="model">openacademy.partner</field>
         <field name="arch" type="xml">
             <search>
-                <field name="name"/>
+                <field name="x_user"/>
                 <field name="instructor"  />
                  <filter name="instructor" string="User type"
                             domain="[('instructor', '=', 'Instructor')]"/>
