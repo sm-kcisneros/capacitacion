@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem
+            id="course_menu"
+            name="Course"
+            sequence="10"
+            web_icon="openacademy,static/Course.png"
+    />
+    
+    <menuitem
+            id="partner_menu"
+            name="Partner"
+            sequence="10"
+            web_icon="openacademy,static/usuarios.png"
+    />
+    
+        <menuitem
+            id="session_menu"
+            name="Session"
+            sequence="10"
+            web_icon="openacademy,static/session.png"
+    />
+
+    <menuitem
+            id="course_menu_action"
+            name="Courses"
+            parent="openacademy.course_menu"
+            sequence="10"
+            action="course_list_action"
+    />
+
+    <menuitem
+            id="session_menu_action"
+            name="Sessions"
+            parent="openacademy.session_menu"
+            sequence="20"
+            action="session_list_action"
+    />
+    
+    <menuitem
+            id="partner_menu_action"
+            name="Partner"
+            parent="openacademy.partner_menu"
+            sequence="20"
+            action="partner_list_action"
+    />
+</odoo>

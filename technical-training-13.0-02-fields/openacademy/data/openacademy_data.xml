@@ -2,12 +2,12 @@
 <odoo>
     <record id="partner_daenerys" model="openacademy.partner">
         <field name="name">Daenerys Targaryan</field>
-        <field name="instructor" eval="True"/>
+<!--         <field name="instructor">Instructor"</field> -->
     </record>
 
     <record id="partner_tyrion" model="openacademy.partner">
         <field name="name">Tyrion Lannister</field>
-        <field name="instructor" eval="True"/>
+<!--         <field name="instructor">Instructor"</field> -->
     </record>
 
     <record id="partner_arya" model="openacademy.partner">
@@ -26,6 +26,5 @@
         <field name="duration">5</field>
         <field name="instructor_id" ref="partner_tyrion"/>
         <field name="course_id" ref="course_dragon"/>
-        <field name="state">confirmed</field>
     </record>
 </odoo>
