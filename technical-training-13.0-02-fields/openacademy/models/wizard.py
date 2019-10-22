@@ -8,13 +8,16 @@ class Wizard(models.TransientModel):
     def _default_sessions(self):
         return self.env['openacademy.session'].browse(self._context.get('active_ids'))
 
-    session_ids = fields.Many2many('openacademy.session',
-        string="Session", required=True, default=_default_sessions)
-    attendee_ids = fields.Many2many('openacademy.partner', string="Attendees", domain =[('instructor','=','alumno')])
+    x_session_ids = fields.Many2many('openacademy.session',string="Session", required=True, default=_default_sessions)
+    x_attendee_ids = fields.Many2many('openacademy.partner', string="Attendees", domain =[('x_instructor','=','alumno')])
     
     @api.multi
+    
     def subscribe(self):
-        for session in self.session_ids:
-            session.attendee_ids |= self.attendee_ids
+    
+#     Registered the atendees in sessions
+    
+        for session in self.x_session_ids:
+            session.x_attendee_ids |= self.x_attendee_ids
             
         return {}

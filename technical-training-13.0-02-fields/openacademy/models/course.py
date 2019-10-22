@@ -8,28 +8,32 @@ class Course(models.Model):
     _name = 'openacademy.course'
     _description = 'Course'
 
-    name = fields.Char(string='Title', required=True)
-    description = fields.Text()
+    x_name = fields.Char(string='Title', required=True)
+    x_description = fields.Text()
 
-    responsible_id = fields.Many2one('openacademy.partner', string="Responsible", ondelete='set null', index=True, domain=[('instructor','=','instructor')])
+    x_responsible_id = fields.Many2one('openacademy.partner', string="Responsible", ondelete='set null', index=True, domain=[('x_instructor','=','instructor')])
 
-    level = fields.Selection([('1', 'Easy'), ('2', 'Medium'), ('3', 'Hard')], string="Difficulty Level")
+    x_level = fields.Selection([('1', 'Easy'), ('2', 'Medium'), ('3', 'Hard')], string="Difficulty Level")
     
-    session_ids = fields.One2many('openacademy.session', 'course_id', string="Sessions")
+    x_session_ids = fields.One2many('openacademy.session', 'x_course_id', string="Sessions")
     
     x_course_name=fields.Char(compute='_get_name_user')
     
-    @api.depends('responsible_id')
+    @api.depends('x_responsible_id')
     def _get_name_user(self):
+        """
+        get responsible of openacademy.partner model        
+        
+        """
         for user in self:
-            user.x_course_name=user.responsible_id.x_user
+            user.x_course_name=user.x_responsible_id.x_user 
         
     
     # RESTRINGIR CON SQL
-    #se restringe que el nombre del curso y la descripcion tienen que ser diferentes
+    # course name and session name must be different
     _sql_constraints = [
-        ('name_descrption_check', 'CHECK(name!=description)', 'tiene que ser diferente el nombre del curo y la descrpcion'),
-        ('name_unique', 'UNIQUE(name)', "The course title must be unique")
+        ('name_descrption_check', 'CHECK(x_name!=x_description)', 'Course name and session name must be different'),
+        ('name_unique', 'UNIQUE(x_name)', "The course title must be unique")
     ]
 
 #SSESION MODEL
@@ -39,84 +43,55 @@ class Session(models.Model):
     _inherit  =  [ 'mail.thread', 'mail.activity.mixin'] 
     _description = 'Session'
 
-    name = fields.Char(required=True)
-    active = fields.Boolean(default=True)
-    state = fields.Selection([('draft', "Draft"), ('confirmed', "Confirmed"), ('done', "Done")], default='draft')
+    x_name = fields.Char(required=True)
+    x_active = fields.Boolean(default=True)
+    x_state = fields.Selection([('draft', "Draft"), ('confirmed', "Confirmed"), ('done', "Done")], default='draft')
 
-    start_date = fields.Date(default=fields.Date.context_today)
-    duration = fields.Float(digits=(6, 2), help="Duration in days", default=1, track_visibility="onchange")
+    x_start_date = fields.Date(default=fields.Date.context_today)
+    x_duration = fields.Float(digits=(6, 2), help="Duration in days", default=1, track_visibility="onchange")
 
-    instructor_id = fields.Many2one('openacademy.partner', string="Instructor", domain=[('instructor','=','maestro')])
-    course_id = fields.Many2one('openacademy.course', ondelete='cascade', string="Course", required=True)
-    attendee_ids = fields.Many2many('openacademy.partner', string="Attendees", domain=[('instructor','=','alumno')])
+    x_instructor_id = fields.Many2one('openacademy.partner', string="Instructor", domain=[('x_instructor','=','maestro')])
+    x_course_id = fields.Many2one('openacademy.course', ondelete='cascade', string="Course", required=True)
+    x_attendee_ids = fields.Many2many('openacademy.partner', string="Attendees", domain=[('x_instructor','=','alumno')])
     
-    taken_quantity = fields.Float(compute='_compute_taken_quantity', store=True)#contar cuantos asistentes hay
-    attendees_count = fields.Integer(compute='_get_attendees_count', store=True)#contar cuantos asistentes hay
+    x_taken_quantity = fields.Float(compute='_compute_taken_quantity', store=True)#calculate the porcentage of attendees
+    x_attendees_count = fields.Integer(compute='_get_attendees_count', store=True)#count the quantity of attendees
     
-    quantity=fields.Float( string="Quantity")
+    x_quantity=fields.Float( string="Quantity")
     
-#limitando con Onchange
-#      @api.onchange("attendee_ids")
-#      def check_change(self):
-#          if len(self.attendee_ids)>self.quantity:
-#              raise ValidationError(
-#                      "Increase seats or remove excess attendees")
-
-#campo computarizado para calcular el porcentaje de asistentes estan inscritos
-    @api.depends('quantity', 'attendee_ids')
+#computed field for calculate the porcentange of attendee
+    @api.depends('x_quantity', 'x_attendee_ids')
     def _compute_taken_quantity(self):
         for session in self:
-            if not session.quantity:
-                session.taken_quantity = 0.0
+            if not session.x_quantity:
+                session.x_taken_quantity = 0.0
             else:
-                session.taken_quantity = 100.0 * len(session.attendee_ids) / session.quantity
+                session.x_taken_quantity = 100.0 * len(session.x_attendee_ids) / session.x_quantity
                 
 
-#campo computarizado para capturar la cantidad de asistentes que estan inscritos
-    @api.depends('attendee_ids')
+#computed field for capture the quantity of atendees
+    @api.depends('x_attendee_ids')
     def _get_attendees_count(self):
         for session in self:
-            session.attendees_count = len(session.attendee_ids)
+            session.x_attendees_count = len(session.x_attendee_ids)
             
-#limitando con constrains
+#limiting with constraint
     @api.constrains('attendee_ids')
     def _check_constrains(self):
-            if len(self.attendee_ids) > self.quantity:#se limita la cantidad de asistentes para que no pase la cantidad que se pueden inscribir
+            if len(self.x_attendee_ids) > self.x_quantity:#limit the quntity of attendees who can register
                 raise ValidationError("Increase seats or remove excess attendees")
-            if self.instructor_id in self.attendee_ids:# se restringe que un instrunctor pueda inscribir al mismo curos que enseña como asistente
+            if self.x_instructor_id in self.x_attendee_ids:#the instructor cannot register in the session
                 raise ValidationError("the instructor cannot be as a student")
-            if len(self.attendee_ids) >= self.quantity/2:
+            if len(self.x_attendee_ids) >= self.x_quantity/2:#change the state to confirmed
                 self.write({
-                    'state': 'confirmed',
+                    'x_state': 'confirmed',
                 })
                 
-
-    #This function is triggered when the user clicks on the button 'Set to concept'
-    @api.one
-    def draft_progressbar(self):
-        self.write({
-            'state': 'draft',
-        })
-
-    #This function is triggered when the user clicks on the button 'Set to started'
-    @api.one
-    def confirmed_progressbar(self):
-        self.write({
-            'state': 'confirmed'
-        })
-
-    #This function is triggered when the user clicks on the button 'Done'
-    @api.one
-    def done_progressbar(self):
-        self.write({
-            'state': 'done',
-        })
         
     @api.multi
     def open_wizard(self):
         ### New code
         _openacademy_wizard = self.env.ref('openacademy.wizard_form_view').read()[0]
-        
          
         return {
 

@@ -7,17 +7,17 @@
             <form string="Course Form">
                 <sheet>
                     <group>
-                        <field name="name"/>
-                        <field name="description"/>
-                        <field name="level"/>
-                        <field name="responsible_id"/>
+                        <field name="x_name"/>
+                        <field name="x_description"/>
+                        <field name="x_level"/>
+                        <field name="x_responsible_id"/>
                     </group>
                     <notebook>
                         <page string="Description">
-                            <field name="session_ids">
+                            <field name="x_session_ids">
                                 <tree string="Registered Sessions">
-                                    <field name="name"/>
-                                    <field name="instructor_id"/>
+                                    <field name="x_name"/>
+                                    <field name="x_instructor_id"/>
                                 </tree>
                             </field>
                         </page>
@@ -33,10 +33,10 @@
         <field name="type">tree</field>
         <field name="arch" type="xml">
             <tree string="Course Tree">
-                <field name="name"/>
-                <field name="description"/>
-                <field name="level"/>
-                <field name="responsible_id"/>
+                <field name="x_name"/>
+                <field name="x_description"/>
+                <field name="x_level"/>
+                <field name="x_responsible_id"/>
             </tree>
         </field>
     </record>
@@ -46,13 +46,13 @@
         <field name="model">openacademy.course</field>
         <field name="arch" type="xml">
             <search>
-                <field name="name"/>
-                <field name="responsible_id"/>
-                <filter name="my_courses" string="My Courses"
+                <field name="x_name"/>
+                <field name="x_responsible_id"/>
+                <filter name="x_my_courses" string="My Courses"
                             domain="[('x_course_name', '=', uid)]"/>
                     <group string="Group By">
                         <filter name="by_responsible" string="Responsible"
-                                context="{'group_by': 'responsible_id'}"/>
+                                context="{'group_by': 'x_responsible_id'}"/>
                     </group>
             </search>
         </field>

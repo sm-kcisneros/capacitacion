@@ -9,18 +9,18 @@
                     <group>
                         <group >
                             <field name="x_user"/>
-                            <field name="phone"/>
-                            <field name="adress"/>
-                            <field name="city"/>
+                            <field name="x_phone"/>
+                            <field name="x_adress"/>
+                            <field name="x_city"/>
                         </group>               
                         <group>
-                            <field name="instructor"/>
+                            <field name="x_instructor"/>
                             
                         </group>
                     </group>
                     <notebook class="oe_read_only">
                         <page string="Session">
-                            <field name="session_ids"/>
+                            <field name="x_session_ids"/>
                         </page>
                     </notebook>
                 </sheet>
@@ -35,8 +35,8 @@
         <field name="arch" type="xml">
             <tree name="Partner Tree">
                 <field name="x_name"/>
-                <field name="instructor"/>
-                <field name="session_ids"/>
+                <field name="x_instructor"/>
+                <field name="x_session_ids"/>
             </tree>
         </field>
     </record>
@@ -47,12 +47,12 @@
         <field name="arch" type="xml">
             <search>
                 <field name="x_user"/>
-                <field name="instructor"  />
-                 <filter name="instructor" string="User type"
-                            domain="[('instructor', '=', 'Instructor')]"/>
+                <field name="x_instructor"  />
+                 <filter name="x_instructor" string="User type"
+                            domain="[('x_instructor', '=', 'Instructor')]"/>
                     <group string="Group By">
                         <filter name="by_instructor" string="User type"
-                                context="{'group_by': 'instructor'}"/>
+                                context="{'group_by': 'x_instructor'}"/>
                     </group>
             </search>
         </field>
@@ -65,5 +65,27 @@
         <field name="view_mode">tree,form</field>
         <field name="context" eval="{'search_default_partner': 1}"/>
     </record>
+    
+    <!-- Groups of security -->
+
+<!--     <record model="ir.module.category" id="module_management">
+      <field name="name">Demo module access</field>
+      <field name="description">User access level for this module</field>
+      <field name="sequence">3</field>
+    </record>
+    
+    
+   <record id="group_user" model="res.groups">
+     <field name="name">User</field>
+     <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+     <field name="users" eval="[(4, ref('base.user_root'))]"/>
+     <field name="category_id" ref="user_access_rights_demo.module_management"/>
+    </record>
+ 
+    <record id="group_manager" model="res.groups">
+      <field name="name">Manager</field>
+      <field name="implied_ids" eval="[(4, ref('user_access_rights_demo.group_user'))]"/>
+      <field name="category_id" ref="user_access_rights_demo.module_management"/>
+    </record> -->
             
 </odoo>

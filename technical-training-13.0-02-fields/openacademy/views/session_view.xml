@@ -9,24 +9,24 @@
                     <header>
                         <button string="Option" type="object" name="open_wizard" />
 
-                        <field name="state" widget="statusbar" clickable='1'/>
+                        <field name="x_state" widget="statusbar" clickable='1'/>
                     </header>  
                         <sheet>
                             <group>
                                 <group string="General">
-                                    <field name="course_id"/>
-                                    <field name="name"/>
-                                    <field name="instructor_id"/>
+                                    <field name="x_course_id"/>
+                                    <field name="x_name"/>
+                                    <field name="x_instructor_id"/>
                                 </group>
                                 <group string="Schedule">
-                                    <field name="start_date"/>
-                                    <field name="duration"/>
-                                    <field name="quantity"/>
-                                    <field name="taken_quantity" widget="progressbar"/>
+                                    <field name="x_start_date"/>
+                                    <field name="x_duration"/>
+                                    <field name="x_quantity"/>
+                                    <field name="x_taken_quantity" widget="progressbar"/>
                                 </group>
                             </group>
-                            <label for="attendee_ids"/>
-                            <field name="attendee_ids"/>
+                            <label for="x_attendee_ids"/>
+                            <field name="x_attendee_ids"/>
                         </sheet>
                     <div class="oe_chatter">
                         <field  name = "message_follower_ids"  widget ="mail_followers" /> 
@@ -43,14 +43,14 @@
             <field name="model">openacademy.session</field>
             <field name="arch" type="xml">
                 <tree string="Session Tree">
-                    <field name="name"/>
-                    <field name="course_id"/>
-                    <field name="instructor_id"/>
-                    <field name="start_date"/>
-                    <field name="duration"/>
-                    <field name="quantity"/>
-                    <field name="state"/>
-                    <field name="taken_quantity" widget="progressbar"/>
+                    <field name="x_name"/>
+                    <field name="x_course_id"/>
+                    <field name="x_instructor_id"/>
+                    <field name="x_start_date"/>
+                    <field name="x_duration"/>
+                    <field name="x_quantity"/>
+                    <field name="x_state"/>
+                    <field name="x_taken_quantity" widget="progressbar"/>
                 </tree>
             </field>
         </record>
@@ -72,8 +72,8 @@
         <field name="arch" type="xml">
             <form string="Add Attendees">
                 <group>
-                    <field name="session_ids"/>
-                    <field name="attendee_ids"/>
+                    <field name="x_session_ids"/>
+                    <field name="x_attendee_ids"/>
                 </group>
                 <footer>
                     <button name="subscribe" type="object"
