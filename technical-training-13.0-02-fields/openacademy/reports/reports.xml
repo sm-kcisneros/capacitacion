@@ -1,0 +1,34 @@
+<odoo>
+    <report
+        id="report_session"
+        model="openacademy.session"
+        string="Session Report"
+        name="openacademy.report_session_view"
+        file="openacademy.report_session"
+        report_type="qweb-pdf" />
+    
+    <template id="report_session_view">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <br/>
+                        <h2 t-field="doc.x_name"/>
+                        <p>Dear students,</p><br/>
+                        <p>This is to invite you to our new course that we have planned and thought for you, so that you can continue learning about your career a little more and do not stay behind with the competition, we are very grateful for your participation in the previous sessions . </p><br/>
+                        <p>Then we indicate the start and end date of the session, as well as the total class time, we wait for you.</p>
+                        <br/>
+                        <p>From <span t-field="doc.x_start_date"/> To <span t-field="doc.x_end_date"/></p>
+                        <p>Duration <span t-field="doc.x_duration"/> Hours</p>
+                        <h3>Attendees:</h3>
+                        <ul>
+                            <t t-foreach="doc.x_attendee_ids" t-as="attendee">
+                                <li><span t-field="attendee.x_name"/></li>
+                            </t>
+                        </ul>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

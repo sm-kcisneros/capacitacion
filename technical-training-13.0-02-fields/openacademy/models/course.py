@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from odoo import tools, fields, models, api, _
 from odoo.exceptions import ValidationError
+from datetime import timedelta
 
 #total = fields.Float(compute='_compute_cantidad')
 
@@ -48,6 +49,8 @@ class Session(models.Model):
     x_state = fields.Selection([('draft', "Draft"), ('confirmed', "Confirmed"), ('done', "Done")], default='draft', string='State')
 
     x_start_date = fields.Date(default=fields.Date.context_today, string='Start date')
+    x_end_date = fields.Date(string="End Date", store=True, compute='_get_end_date', inverse='_set_end_date')
+
     x_duration = fields.Float(digits=(6, 2), help="Duration in days", default=1, track_visibility="onchange", string='Duration')
 
     x_instructor_id = fields.Many2one('openacademy.partner', string="Instructor", domain=[('x_instructor','=','maestro')])
@@ -78,6 +81,7 @@ class Session(models.Model):
         for session in self:
             session.x_attendees_count = len(session.x_attendee_ids)
             
+            
 #limiting with constraint
     @api.constrains('attendee_ids')
     def _check_constrains(self):
@@ -90,7 +94,32 @@ class Session(models.Model):
                     'x_state': 'confirmed',
                 })
                 
-        
+                
+    #obtiene el ultimo dia de la session
+                
+    @api.depends('x_start_date', 'x_duration')
+    def _get_end_date(self):
+        for r in self:
+            if not (r.x_start_date and r.x_duration):
+                r.x_end_date = r.x_start_date
+                continue
+
+            # Add duration to start_date, but: Monday + 5 days = Saturday, so
+            # subtract one second to get on Friday instead
+            duration = timedelta(days=r.x_duration, seconds=-1)
+            r.x_end_date = r.x_start_date + duration
+
+    def _set_end_date(self):
+        for r in self:
+            if not (r.x_start_date and r.x_end_date):
+                continue
+
+            # Compute the difference between dates, but: Friday - Monday = 4 days,
+            # so add one day to get 5 days instead
+            r.x_duration = (r.x_end_date - r.x_start_date).days + 1
+                
+   #abre un wizard
+
     @api.multi
     def open_wizard(self):
         ### New code
