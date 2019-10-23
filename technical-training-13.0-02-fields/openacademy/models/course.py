@@ -9,7 +9,7 @@ class Course(models.Model):
     _description = 'Course'
 
     x_name = fields.Char(string='Title', required=True)
-    x_description = fields.Text()
+    x_description = fields.Text(string='Description')
 
     x_responsible_id = fields.Many2one('openacademy.partner', string="Responsible", ondelete='set null', index=True, domain=[('x_instructor','=','instructor')])
 
@@ -43,22 +43,24 @@ class Session(models.Model):
     _inherit  =  [ 'mail.thread', 'mail.activity.mixin'] 
     _description = 'Session'
 
-    x_name = fields.Char(required=True)
+    x_name = fields.Char(required=True, string='Nombre')
     x_active = fields.Boolean(default=True)
-    x_state = fields.Selection([('draft', "Draft"), ('confirmed', "Confirmed"), ('done', "Done")], default='draft')
+    x_state = fields.Selection([('draft', "Draft"), ('confirmed', "Confirmed"), ('done', "Done")], default='draft', string='State')
 
-    x_start_date = fields.Date(default=fields.Date.context_today)
-    x_duration = fields.Float(digits=(6, 2), help="Duration in days", default=1, track_visibility="onchange")
+    x_start_date = fields.Date(default=fields.Date.context_today, string='Start date')
+    x_duration = fields.Float(digits=(6, 2), help="Duration in days", default=1, track_visibility="onchange", string='Duration')
 
     x_instructor_id = fields.Many2one('openacademy.partner', string="Instructor", domain=[('x_instructor','=','maestro')])
     x_course_id = fields.Many2one('openacademy.course', ondelete='cascade', string="Course", required=True)
     x_attendee_ids = fields.Many2many('openacademy.partner', string="Attendees", domain=[('x_instructor','=','alumno')])
     
-    x_taken_quantity = fields.Float(compute='_compute_taken_quantity', store=True)#calculate the porcentage of attendees
+    x_taken_quantity = fields.Float(compute='_compute_taken_quantity', store=True, string='Attendee porcentage')#calculate the porcentage of attendees
     x_attendees_count = fields.Integer(compute='_get_attendees_count', store=True)#count the quantity of attendees
     
     x_quantity=fields.Float( string="Quantity")
     x_is_paid = fields.Boolean(default=False)
+    
+    x_product_id = fields.Many2one('product.product', string = 'Producto')
     
 #computed field for calculate the porcentange of attendee
     @api.depends('x_quantity', 'x_attendee_ids')
@@ -110,21 +112,23 @@ class Session(models.Model):
 # #create a invoice in session por Teacher
     @api.multi
     def create_invoice_teacher(self):
+        
+        
         teacher_invoice = self.env['account.invoice'].search([
-            ('partner_id', '=', self.x_instructor_id.x_user.partner_id)
+            ('partner_id','=', self.x_instructor_id.x_user.partner_id.id),
         ], limit=1)
 
         if not teacher_invoice:
             teacher_invoice = self.env['account.invoice'].create({
-                'partner_id': self.x_instructor_id.x_user.partner_id,
+                'partner_id': self.x_instructor_id.x_user.partner_id.id,
             })
 
         # install module accounting and a chart of account to have at least one expense account in your CoA
         expense_account = self.env['account.account'].search([('user_type_id', '=', self.env.ref('account.data_account_type_expenses').id)], limit=1)
         self.env['account.invoice.line'].create({
             'invoice_id': teacher_invoice.id,
-            'product_id': self.product_id.id,
-            'price_unit': self.product_id.lst_price,
+            'product_id': self.x_product_id.id,
+            'price_unit': self.x_product_id.lst_price,
             'account_id': expense_account.id,
             'name':       'Session',
             'quantity':   1,

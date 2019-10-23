@@ -18,7 +18,8 @@
                                     <field name="x_course_id"/>
                                     <field name="x_name"/>
                                     <field name="x_instructor_id"/>
-                                    <field name="x_is_paid"/>
+                                    <field name="x_is_paid" invisible="1"/>
+                                    <field name="x_product_id" />
                                 </group>
                                 <group string="Schedule">
                                     <field name="x_start_date"/>

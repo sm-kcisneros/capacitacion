@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-, api
 from odoo import api, fields, models
+from odoo.exceptions import ValidationError
 
 
 class Partner(models.Model):
@@ -8,8 +9,8 @@ class Partner(models.Model):
     _inheret='openacademy.course'
 
     x_user = fields.Many2one('res.users', string="Name")
-
-    x_instructor = fields.Selection([('instructor', 'Instructor'), ('maestro', ' Maestro'), ('alumno', 'Alumno')], default='alumno', string='User type')
+    
+    x_instructor = fields.Selection([('instructor', 'Instructor'), ('maestro', ' Maestro'), ('alumno', 'Alumno')], default='alumno', string='type')
     x_phone = fields.Char(string='phone')
     x_adress = fields.Char(string='Adress')
     x_city = fields.Char(string='City')
@@ -19,6 +20,5 @@ class Partner(models.Model):
     @api.depends('x_user') #capture the name of res.user
     def _get_name_partner(self):
         for user in self:
-            user.x_name=user.x_user.name
-            
-    
+            user.x_name = user.x_user.name
+     

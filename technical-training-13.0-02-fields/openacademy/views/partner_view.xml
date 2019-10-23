@@ -1,6 +1,5 @@
 <odoo>
-    
-        <record model="ir.ui.view" id="partner_form_view">
+    <record model="ir.ui.view" id="partner_form_view">
         <field name="name">partner.form</field>
         <field name="model">openacademy.partner</field>
         <field name="arch" type="xml">
@@ -13,6 +12,7 @@
                             <field name="x_phone"/>
                             <field name="x_adress"/>
                             <field name="x_city"/>
+<!--                             <field name="x_get_group"/> -->
                         </group>               
                         <group>
                             <field name="x_instructor"/>
@@ -67,5 +67,5 @@
         <field name="view_mode">tree,form</field>
         <field name="context" eval="{'search_default_partner': 1}"/>
     </record>
-                
+    
 </odoo>
