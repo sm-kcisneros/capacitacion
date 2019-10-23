@@ -3,7 +3,10 @@ from odoo import tools, fields, models, api, _
 from odoo.exceptions import ValidationError
 from datetime import timedelta
 
-#total = fields.Float(compute='_compute_cantidad')
+# class Teachers(models.Model):
+#     _name = 'academy.teachers'
+
+#     name = fields.Char()
 
 class Course(models.Model):
     _name = 'openacademy.course'

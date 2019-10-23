@@ -21,7 +21,7 @@
     'version':     '0.1',
 
     # any module necessary for this one to work correctly
-    'depends':     ['base', 'mail','account', 'product', 'board'],
+    'depends':     ['base', 'mail','account', 'product', 'board', 'website'],
 
     # always loaded
     'data':        [
@@ -33,7 +33,9 @@
         "views/partner_view.xml",
         "views/menu_item.xml",
         "reports/reports.xml",
-        "reports/session_board.xml"
+        "reports/session_board.xml",
+        "reports/templates.xml",
+        "demo.xml",
     ],
     # only loaded in demonstration mode
     'demo':        [],
