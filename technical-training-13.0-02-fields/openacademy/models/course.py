@@ -3,10 +3,12 @@ from odoo import tools, fields, models, api, _
 from odoo.exceptions import ValidationError
 from datetime import timedelta
 
-# class Teachers(models.Model):
-#     _name = 'academy.teachers'
+class Teachers(models.Model):
+    _name = 'openacademy.teachers'
+    _description = 'Teachers'
 
-#     name = fields.Char()
+    name = fields.Char()
+    biography = fields.Html()
 
 class Course(models.Model):
     _name = 'openacademy.course'

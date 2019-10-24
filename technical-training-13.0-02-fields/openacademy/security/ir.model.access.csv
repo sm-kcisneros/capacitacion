@@ -8,3 +8,4 @@ partner_manager_teacher,Partner Manager,model_openacademy_partner,openacademy.gr
 course_manager_student,Course Manager,model_openacademy_course,openacademy.group_student,0,0,0,0
 session_manager_student,Session Manager,model_openacademy_session,openacademy.group_student,1,0,0,0
 partner_manager_student,Partner Manager,model_openacademy_partner,openacademy.group_student,0,0,0,0
+access_academy_teachers,access_academy_teachers,model_openacademy_teachers,,1,0,0,0

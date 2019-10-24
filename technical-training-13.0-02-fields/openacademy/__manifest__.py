@@ -27,15 +27,15 @@
     'data':        [
         "security/groups_security.xml",
         "security/ir.model.access.csv",
-#         "data/openacademy_data.xml",
+        "demo.xml",
+        "reports/templates.xml",
         "views/course_view.xml",
         "views/session_view.xml",
         "views/partner_view.xml",
         "views/menu_item.xml",
         "reports/reports.xml",
         "reports/session_board.xml",
-        "reports/templates.xml",
-        "demo.xml",
+        
     ],
     # only loaded in demonstration mode
     'demo':        [],

@@ -1,5 +1,5 @@
 <odoo>
-<!--     <record id="padilla" model="openacademy.teachers">
+    <record id="padilla" model="openacademy.teachers">
         <field name="name">Diana Padilla</field>
     </record>
     <record id="carroll" model="openacademy.teachers">
@@ -7,5 +7,5 @@
     </record>
     <record id="vaughn" model="openacademy.teachers">
         <field name="name">Lester Vaughn</field>
-    </record> -->
+    </record>
 </odoo>

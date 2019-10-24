@@ -5,11 +5,70 @@
             <div class="oe_structure">
                 <div class="container">
                     <t t-foreach="teachers" t-as="teacher">
-                        <p><t t-esc="teacher.id"/> <t t-esc="teacher.name"/></p>
+                        <p><a t-attf-href="/academy/{{ slug(teacher) }}">
+                            <t t-esc="teacher.name"/></a>
+                        </p>
                     </t>
                 </div>
             </div>
         </t>
     </template>
+    <template id="biography">
+        <t t-call="website.layout">
+            <t t-set="title">Academy</t>
+            <div class="oe_structure"/>
+            <div class="oe_structure">
+                <div class="container">
+                    <h3 t-field="person.name"/>
+                    <div t-field="person.biography"/>
+                </div>
+            </div>
+            <div class="oe_structure">
+                <div class="container">
+                    <p><t t-esc="person.id"/> <t t-esc="person.name"/></p>
+                </div>
+            </div>
+            <div class="oe_structure"/>
+        </t>
+    </template>
     <!-- <template id="object"> -->
+
+    <template id="sessions">
+        <t t-call="website.layout">
+            <t t-set="title">Sessions</t>
+            <div class="oe_estructure">
+                <div class="container">
+                    <br/><br/><h3>¡WELCOME TO OPEN ACADEMY!</h3><br/>
+                    <p>
+Here you can see the sessions we have available and their descriptions by clicking on each one</p>
+                    <t t-foreach="sessions" t-as="session">
+                        <p><a t-attf-href="/Sessions/{{ slug(session) }}">
+                            <t t-esc="session.x_name"/></a>
+                        </p>
+                    </t>
+                </div>
+            </div>
+        </t>
+    </template>
+    
+    <template id="description">
+        <t t-call="website.layout">
+            <t t-set="title">Sessions</t>
+            <div class="oe_structure"/>
+            <div class="oe_structure">
+                <div class="container">
+                    <br/><br/><h3 t-field="x_session.x_name"/><br/>
+                    <p>In this session you can learn to program in Python from scratch in the easiest and funniest way, the session will have a duration of <t t-esc="x_session.x_duration"/> hours,</p>
+                </div>
+            </div>
+            <div class="oe_structure">
+                <div class="container">
+                    <p>the session will begin <t t-esc="x_session.x_start_date"/> and end <t t-esc="x_session.x_end_date"/>.</p>
+                    <p>Belongs to the course of: <t t-esc="x_session.x_course_id.x_name"/></p>
+                </div>
+            </div>
+            <div class="oe_structure"/>
+        </t>
+    </template>
+    
 </odoo>
